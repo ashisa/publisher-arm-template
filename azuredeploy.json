@@ -161,7 +161,7 @@
                         "[resourceId('Microsoft.Web/Sites', concat(parameters('DataShareName'), 'functionapp'))]"
                     ],
                     "properties": {
-                        "RepoUrl": "https://github.com/ashisa/oneclickai.git",
+                        "RepoUrl": "https://github.com/ashisa/publisher-arm-template.git",
                         "branch": "master",
                         "IsManualIntegration": true
                     }
