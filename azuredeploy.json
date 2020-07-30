@@ -161,7 +161,8 @@
             "properties": {
                 "roleDefinitionId": "[variables('ReaderRoleDefinitionId')]",
                 "principalId": "[reference(concat('Microsoft.Web/sites/', variables('FunctionAppName')), '2019-08-01', 'Full').identity.principalId]",
-                "scope": "[resourceGroup().id]"
+                "scope": "[resourceGroup().id]",
+                "principalType": "ServicePrincipal"
             }
         }
     ],
