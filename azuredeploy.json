@@ -122,6 +122,9 @@
                 "[resourceId('Microsoft.Web/serverfarms', variables('AppServicePlanName'))]",
                 "[resourceId('Microsoft.Storage/storageAccounts', concat(parameters('DataShareName'), 'functionstorage'))]"
             ],
+            "identity": {
+                "type": "SystemAssigned"
+            },
             "properties": {
                 "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', concat(parameters('DataShareName'), '-Plan'))]",
                 "siteConfig": {
