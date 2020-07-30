@@ -105,13 +105,13 @@
         {
             "type": "Microsoft.Web/serverfarms",
             "apiVersion": "2019-08-01",
-            "name": "[concat(parameters('DataShareName'), '-Plan')]",
+            "name": "[variables('AppServicePlanName')]",
             "location": "[parameters('Location')]",
             "sku": {
                 "name": "B1"
             },
             "properties": {
-                "name": "[concat(parameters('DataShareName'), '-Plan')]"
+                "name": "[variables('AppServicePlanName')]"
             }
         },
         {
@@ -128,7 +128,7 @@
                 "type": "SystemAssigned"
             },
             "properties": {
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', concat(parameters('DataShareName'), '-Plan'))]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('AppServicePlanName'))]",
                 "siteConfig": {
                     "appSettings": [
                         {
@@ -164,7 +164,7 @@
                     "name": "MSDeploy",
                     "type": "extensions",
                     "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', concat(parameters('DataShareName'), 'functionapp'))]"
+                        "[resourceId('Microsoft.Web/Sites', variables('FunctionAppName'))]"
                     ],
                     "properties": {
                         "packageUri": "[variables('packageURI')]"
