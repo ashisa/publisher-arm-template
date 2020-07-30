@@ -38,7 +38,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2019-06-01",
-            "name": "[variables('DataShareAccountName')]",
+            "name": "[variables('DataShareStorageAccount')]",
             "location": "[parameters('Location')]",
             "sku": {
                 "name": "Standard_LRS",
