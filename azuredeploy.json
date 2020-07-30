@@ -25,13 +25,13 @@
         }
     },
     "variables": {
-        "DataShareStorageAccount": "[substring(concat(parameters('DataShareName'), uniqueString(resourceGroup().id), 'storage'), 0, 29)]",
+        "DataShareStorageAccount": "[substring(concat(parameters('DataShareName'), 'storage-', uniqueString(resourceGroup().id)), 0, 23)]",
         "StorageBlobDataReader": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1')]",
         "RoleAssignmentName": "[concat(variables('DataShareStorageAccount'), '/Microsoft.Authorization/', guid(uniqueString(variables('DataShareStorageAccount'))))]",
-        "AppServicePlanName": "[substring(concat(parameters('DataShareName'), uniqueString(resourceGroup().id), '-Plan'), 0, 29)]",
+        "AppServicePlanName": "[substring(concat(parameters('DataShareName'), 'plan-', uniqueString(resourceGroup().id)), 0, 23)]",
         "PackageURI": "https://raw.githubusercontent.com/ashisa/publisher-arm-template/master/functionapp/functionapp.zip",
-        "FunctionStorageName": "[substring(concat(parameters('DataShareName'), uniqueString(resourceGroup().id), 'funcstorage'), 0, 29)]",
-        "FunctionAppName": "[substring(concat(parameters('DataShareName'), uniqueString(resourceGroup().id), 'functionapp'), 0, 29)]"
+        "FunctionStorageName": "[substring(concat(parameters('DataShareName'), 'funcstorage-', uniqueString(resourceGroup().id)), 0, 23)]",
+        "FunctionAppName": "[substring(concat(parameters('DataShareName'), 'functionapp-', uniqueString(resourceGroup().id)), 0, 23)]"
     },
     "resources": [
         {
