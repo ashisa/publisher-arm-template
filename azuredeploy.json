@@ -1,5 +1,5 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
         "DataShareName": {
@@ -28,7 +28,8 @@
         "DataShareStorageAccount": "[concat(parameters('DataShareName'), 'storage')]",
         "StorageBlobDataReader": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1')]",
         "RoleAssignmentName": "[concat(variables('DataShareStorageAccount'), '/Microsoft.Authorization/', guid(uniqueString(variables('DataShareStorageAccount'))))]",
-        "AppServicePlanName": "[concat(parameters('DataShareName'), '-Plan')]"
+        "AppServicePlanName": "[concat(parameters('DataShareName'), '-Plan')]",
+        "PackageURI": ""
     },
     "resources": [
         {
@@ -155,15 +156,13 @@
             "resources": [
                 {
                     "apiVersion": "2015-08-01",
-                    "name": "web",
-                    "type": "sourcecontrols",
+                    "name": "MSDeploy",
+                    "type": "extensions",
                     "dependsOn": [
                         "[resourceId('Microsoft.Web/Sites', concat(parameters('DataShareName'), 'functionapp'))]"
                     ],
                     "properties": {
-                        "RepoUrl": "https://github.com/ashisa/publisher-arm-template.git",
-                        "branch": "master",
-                        "IsManualIntegration": true
+                        "packageUri": "[variables('packageURI')]"
                     }
                 }
             ]
