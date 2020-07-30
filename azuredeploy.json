@@ -175,7 +175,7 @@
         },
         "NotificationEndpointURL": {
             "type": "string",
-            "value": "[concat(reference(concat('Microsoft.Web/sites/', variables('FunctionAppName')), '2019-08-01', 'Full').hostname, '/api')]"
+            "value": "[concat('https:/', reference(concat('Microsoft.Web/sites/', variables('FunctionAppName')), '2019-08-01', 'Full').properties.defaultHostName, '/api')]"
         },
         "FunctionAppIdentity": {
             "type": "string",
