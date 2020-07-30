@@ -29,7 +29,9 @@
         "StorageBlobDataReader": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1')]",
         "RoleAssignmentName": "[concat(variables('DataShareStorageAccount'), '/Microsoft.Authorization/', guid(uniqueString(variables('DataShareStorageAccount'))))]",
         "AppServicePlanName": "[concat(parameters('DataShareName'), '-Plan')]",
-        "PackageURI": "https://raw.githubusercontent.com/ashisa/publisher-arm-template/master/functionapp/functionapp.zip"
+        "PackageURI": "https://raw.githubusercontent.com/ashisa/publisher-arm-template/master/functionapp/functionapp.zip",
+        "FunctionStorageName": "[concat(substring(parameters('DataShareName'), 0, 18), 'funcstorage')]",
+        "FunctionAppName": "[concat(substring(parameters('DataShareName'), 0, 18), 'functionapp')]"
     },
     "resources": [
         {
@@ -92,7 +94,7 @@
         },
         {
             "type": "Microsoft.Storage/storageAccounts",
-            "name": "[concat(parameters('DataShareName'), 'functionstorage')]",
+            "name": "[variables('FunctionStorageName')]",
             "apiVersion": "2019-06-01",
             "location": "[parameters('location')]",
             "kind": "Storage",
@@ -115,12 +117,12 @@
         {
             "apiVersion": "2019-08-01",
             "type": "Microsoft.Web/sites",
-            "name": "[concat(parameters('DataShareName'), 'functionapp')]",
+            "name": "[variables('FunctionAppName')]",
             "location": "[parameters('Location')]",
             "kind": "functionapp",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', variables('AppServicePlanName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', concat(parameters('DataShareName'), 'functionstorage'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('FunctionStorageName'))]"
             ],
             "identity": {
                 "type": "SystemAssigned"
@@ -131,11 +133,11 @@
                     "appSettings": [
                         {
                             "name": "AzureWebJobsStorage",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', concat(parameters('DataShareName'), 'functionstorage'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', concat(parameters('DataShareName'), 'functionstorage')), '2019-06-01').keys[0].value)]"
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('FunctionStorageName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('FunctionStorageName')), '2019-06-01').keys[0].value)]"
                         },
                         {
                             "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', concat(parameters('DataShareName'), 'functionstorage'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', concat(parameters('DataShareName'), 'functionstorage')), '2019-06-01').keys[0].value)]"
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('FunctionStorageName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('FunctionStorageName')), '2019-06-01').keys[0].value)]"
                         },
                         {
                             "name": "WEBSITE_CONTENTSHARE",
