@@ -155,7 +155,7 @@
             "apiVersion": "2018-09-01-preview",
             "name": "[variables('ResourceGroupRoleAssignmentId')]",
             "dependsOn": [
-                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('identityName'))]"
+                "[resourceId('Microsoft.Web/Sites', variables('FunctionAppName'))]"
             ],
             "properties": {
                 "roleDefinitionId": "[variables('ContributorRoleDefinitionId')]",
