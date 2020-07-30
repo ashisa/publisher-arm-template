@@ -85,7 +85,7 @@
             "type": "Microsoft.Web/serverfarms",
             "apiVersion": "2019-08-01",
             "name": "[variables('AppServicePlanName')]",
-            "location": "[parameters('Location')]",
+            "location": "[variables('Location')]",
             "sku": {
                 "name": "B1"
             },
