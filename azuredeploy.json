@@ -29,7 +29,7 @@
         "StorageBlobDataReader": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1')]",
         "RoleAssignmentName": "[concat(variables('DataShareStorageAccount'), '/Microsoft.Authorization/', guid(uniqueString(variables('DataShareStorageAccount'))))]",
         "AppServicePlanName": "[concat(parameters('DataShareName'), '-Plan')]",
-        "PackageURI": ""
+        "PackageURI": "https://raw.githubusercontent.com/ashisa/publisher-arm-template/master/functionapp/functionapp.zip"
     },
     "resources": [
         {
