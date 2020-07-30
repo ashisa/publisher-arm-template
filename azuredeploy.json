@@ -65,7 +65,7 @@
             ],
             "properties": {
                 "roleDefinitionId": "[variables('StorageBlobDataReader')]",
-                "principalId": "[reference(concat('Microsoft.DataShare/accounts/', parameters('DataShareName')), '2019-11-01', 'Full').identity.principalId]"
+                "principalId": "[reference(concat('Microsoft.DataShare/accounts/', variables('DataShareAccountName')), '2019-11-01', 'Full').identity.principalId]"
             }
         },
         {
@@ -117,7 +117,7 @@
                         },
                         {
                             "name": "WEBSITE_CONTENTSHARE",
-                            "value": "[toLower(concat(parameters('DataShareName'), '-function'))]"
+                            "value": "[toLower(variables('FunctionAppName'))]"
                         },
                         {
                             "name": "FUNCTIONS_EXTENSION_VERSION",
