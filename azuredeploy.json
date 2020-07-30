@@ -8,7 +8,7 @@
                 "description": "Name of the Data Share Account that will host your data shares"
             }
         },
-        "Location": {
+        "DataShareAccountLocation": {
             "type": "string",
             "defaultValue": "East US",
             "allowedValues": [
@@ -26,6 +26,7 @@
     },
     "variables": {
         "DataShareAccountName": "[substring(concat(parameters('DataShareName'), 'acct', uniqueString(resourceGroup().id)), 0, 23)]",
+        "Location": "[parameters('DataShareAccountLocation')]",
         "DataShareStorageAccount": "[substring(concat(parameters('DataShareName'), 'acctstorage', uniqueString(resourceGroup().id)), 0, 23)]",
         "StorageBlobDataReader": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1')]",
         "AppServicePlanName": "[substring(concat(parameters('DataShareName'), 'function', uniqueString(resourceGroup().id)), 0, 23)]",
@@ -40,7 +41,7 @@
             "type": "Microsoft.Storage/storageAccounts",
             "name": "[variables('DataShareStorageAccount')]",
             "apiVersion": "2019-06-01",
-            "location": "[parameters('location')]",
+            "location": "[variables('location')]",
             "kind": "Storage",
             "sku": {
                 "name": "Standard_LRS"
@@ -51,7 +52,7 @@
             "type": "Microsoft.DataShare/accounts",
             "apiVersion": "2019-11-01",
             "name": "[variables('DataShareAccountName')]",
-            "location": "[parameters('Location')]",
+            "location": "[variables('Location')]",
             "identity": {
                 "type": "SystemAssigned"
             },
@@ -74,7 +75,7 @@
             "type": "Microsoft.Storage/storageAccounts",
             "name": "[variables('FunctionStorageName')]",
             "apiVersion": "2019-06-01",
-            "location": "[parameters('location')]",
+            "location": "[variables('location')]",
             "kind": "Storage",
             "sku": {
                 "name": "Standard_LRS"
@@ -96,7 +97,7 @@
             "apiVersion": "2019-08-01",
             "type": "Microsoft.Web/sites",
             "name": "[variables('FunctionAppName')]",
-            "location": "[parameters('Location')]",
+            "location": "[variables('Location')]",
             "kind": "functionapp",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', variables('AppServicePlanName'))]",
