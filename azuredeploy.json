@@ -28,7 +28,6 @@
         "DataShareAccountName": "[substring(concat(parameters('DataShareName'), 'account-', uniqueString(resourceGroup().id)), 0, 23)]",
         "DataShareStorageAccount": "[substring(concat(parameters('DataShareName'), 'storage', uniqueString(resourceGroup().id)), 0, 23)]",
         "StorageBlobDataReader": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1')]",
-        "RoleAssignmentName": "[concat(variables('DataShareStorageAccount'), '/Microsoft.Authorization/', guid(uniqueString(variables('DataShareStorageAccount'))))]",
         "AppServicePlanName": "[substring(concat(parameters('DataShareName'), '-plan-', uniqueString(resourceGroup().id)), 0, 23)]",
         "PackageURI": "https://raw.githubusercontent.com/ashisa/publisher-arm-template/master/functionapp/functionapp.zip",
         "FunctionStorageName": "[substring(concat(parameters('DataShareName'), 'function', uniqueString(resourceGroup().id)), 0, 23)]",
@@ -83,7 +82,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts/providers/roleAssignments",
             "apiVersion": "2018-09-01-preview",
-            "name": "[variables('RoleAssignmentName')]",
+            "name": "[concat(variables('DataShareStorageAccount'), '/Microsoft.Authorization/', guid(uniqueString(variables('DataShareStorageAccount'))))]",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', variables('DataShareStorageAccount'))]",
                 "[resourceId('Microsoft.DataShare/accounts', parameters('DataShareName'))]"
