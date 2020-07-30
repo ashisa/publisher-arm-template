@@ -31,7 +31,9 @@
         "AppServicePlanName": "[substring(concat(parameters('DataShareName'), 'plan', uniqueString(resourceGroup().id)), 0, 23)]",
         "PackageURI": "https://raw.githubusercontent.com/ashisa/publisher-arm-template/master/functionapp/functionapp.zip",
         "FunctionStorageName": "[substring(concat(parameters('DataShareName'), 'funcstrg', uniqueString(resourceGroup().id)), 0, 23)]",
-        "FunctionAppName": "[substring(concat(parameters('DataShareName'), 'function', uniqueString(resourceGroup().id)), 0, 23)]"
+        "FunctionAppName": "[substring(concat(parameters('DataShareName'), 'function', uniqueString(resourceGroup().id)), 0, 23)]",
+        "ResourceGroupRoleAssignmentId": "[guid(concat(resourceGroup().id, 'contributor'))]",
+        "ContributorRoleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]"
     },
     "resources": [
         {
@@ -147,6 +149,19 @@
                     }
                 }
             ]
+        },
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2018-09-01-preview",
+            "name": "[variables('ResourceGroupRoleAssignmentId')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('identityName'))]"
+            ],
+            "properties": {
+                "roleDefinitionId": "[variables('ContributorRoleDefinitionId')]",
+                "principalId": "[reference(concat('Microsoft.Web/sites/', variables('FunctionAppName')), '2019-11-01', 'Full').identity.principalId]",
+                "scope": "[resourceGroup().id]"
+            }
         }
     ]
 }
